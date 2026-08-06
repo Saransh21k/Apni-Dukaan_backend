@@ -1,6 +1,7 @@
 package com.apni.dukaan.controller;
 
 import com.apni.dukaan.dto.RegisterRequest;
+import com.apni.dukaan.dto.request.LoginRequest;
 import com.apni.dukaan.dto.response.AuthResponse;
 import com.apni.dukaan.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class AuthController {
     @GetMapping("/test")
     public String test() {
         return "Working";
+    }
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody LoginRequest request) {
+        System.out.println("Controller reached");
+        return userService.login(request);
     }
 
 

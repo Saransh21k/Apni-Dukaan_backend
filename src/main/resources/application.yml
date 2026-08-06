@@ -11,3 +11,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  secret: MySuperSecretKeyMySuperSecretKeyMySuperSecretKey12345
+  expiration: 86400000
+logging:
+    level:
+      org.springframework.security: DEBUG
