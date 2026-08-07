@@ -1,5 +1,6 @@
 package com.apni.dukaan.repository;
 
+import com.apni.dukaan.entity.Category;
 import com.apni.dukaan.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
