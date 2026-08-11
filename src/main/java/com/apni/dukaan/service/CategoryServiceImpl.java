@@ -1,5 +1,5 @@
 package com.apni.dukaan.service;
-
+import com.apni.dukaan.exception.CategoryNotFoundException;
 import com.apni.dukaan.dto.request.CategoryRequest;
 import com.apni.dukaan.dto.response.CategoryResponse;
 import com.apni.dukaan.entity.Category;
@@ -44,6 +44,41 @@ public class CategoryServiceImpl implements CategoryService {
         return categories.stream()
                 .map(this::mapToResponse)
                 .toList();
+    }
+    @Override
+    public CategoryResponse getCategoryById(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new CategoryNotFoundException("Category not found with id: " + id)
+                );
+
+        return mapToResponse(category);
+    }
+    @Override
+    public CategoryResponse updateCategory(Long id, CategoryRequest request) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new CategoryNotFoundException("Category not found with id: " + id)
+                );
+        category.setName(request.getName());
+        category.setDescription(request.getDescription());
+        category.setUpdatedAt(LocalDateTime.now());
+
+        Category updatedCategory = categoryRepository.save(category);
+
+        return mapToResponse(updatedCategory);
+    }
+    @Override
+    public void deleteCategory(Long id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new CategoryNotFoundException("Category not found with id: " + id)
+                );
+
+        categoryRepository.delete(category);
     }
 
     private CategoryResponse mapToResponse(Category category) {

@@ -3,6 +3,8 @@ package com.apni.dukaan.controller;
 import com.apni.dukaan.dto.RegisterRequest;
 import com.apni.dukaan.dto.request.LoginRequest;
 import com.apni.dukaan.dto.response.AuthResponse;
+import com.apni.dukaan.dto.response.CategoryResponse;
+import com.apni.dukaan.service.CategoryService;
 import com.apni.dukaan.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,7 @@ public class AuthController {
         System.out.println("Controller reached");
         return userService.login(request);
     }
+
 
 
 }
