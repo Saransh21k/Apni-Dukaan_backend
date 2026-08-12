@@ -10,6 +10,8 @@ import com.apni.dukaan.exception.ProductNotFoundException;
 import com.apni.dukaan.repository.CategoryRepository;
 import com.apni.dukaan.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -51,12 +53,11 @@ public class ProductServiceImpl implements ProductService {
         return mapToResponse(savedProduct);
     }
     @Override
-    public List<ProductResponse> getAllProducts() {
+    public Page<ProductResponse> getAllProducts(Pageable pageable) {
 
-        return productRepository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+        Page<Product> products = productRepository.findAll(pageable);
+
+        return products.map(this::mapToResponse);
     }
     @Override
     public ProductResponse getProductById(Long id) {
@@ -109,6 +110,15 @@ public class ProductServiceImpl implements ProductService {
                 );
 
         productRepository.delete(product);
+    }
+    @Override
+    public Page<ProductResponse> searchProductsByName(
+            String name,
+            Pageable pageable) {
+
+        return productRepository
+                .findByNameContainingIgnoreCase(name, pageable)
+                .map(this::mapToResponse);
     }
     private ProductResponse mapToResponse(Product product) {
 
